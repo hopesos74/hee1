@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById("btnOk").onclick = function() {
+			startXHR(); //function startXHR로 이동
+		}
+	}
+
+	var xhr;
+	function createXHR() {
+		if (window.ActiveXObject) {
+			xhr = new ActiveXObject("Msxml2.XMLHTTP");
+		} else {
+			xhr = new XMLHttpRequest(); // xhr을 얻음
+		}
+	}
+
+	function startXHR() {
+		createXHR();
+
+		xhr.open("get", "weather.xml", true); //weather.xml 호출
+		xhr.onreadystatechange = function() {
+
+			if (xhr.readyState == 4) {
+				if (xhr.status == 200) {
+					process();
+				}
+			}
+		}
+		xhr.send(null);
+	}
+
+	function process() { // xml 업데이트 시점 불러오기
+		var data = xhr.responseXML;
+
+		var weatherNode = data.getElementsByTagName("weather")[0];
+		var strDate = weatherNode.getAttribute("year") + "년 "
+				+ weatherNode.getAttribute("month") + "월 "
+				+ weatherNode.getAttribute("day") + "일 "
+				+ weatherNode.getAttribute("hour") + "시";
+
+		document.getElementById("disp").innerHTML = strDate; // disp 레이어에 집어넣음
+
+		var localNode = data.getElementsByTagName("local");
+		//날씨 출력방법1 - HTML DOM을 쓰는 방식
+		for (var i = 0; i < localNode.length; i++) {
+			var row = document.createElement("tr"); // tr 생성
+			var col1 = document.createElement("td"); // td 생성
+			var col2 = document.createElement("td"); // td 생성
+			var loc = localNode[i].childNodes[0].nodeValue;
+			var ta = localNode[i].getAttribute("ta"); 
+			col1.appendChild(document.createTextNode(loc)); //appendchild로 넣음
+			col2.appendChild(document.createTextNode(ta)); //appendchild로 넣음
+			row.appendChild(col1);
+			row.appendChild(col2);
+			document.getElementById("myTbody").appendChild(row); // 테이블을 만들어서 row에 appendchild로 넣음
+		}
+
+		//날씨 출력방법1 - innerHTML을 쓴 방식
+		var ss = "<table>";
+		for (var i = 0; i < localNode.length; i++) {
+			ss += "<tr>";
+			ss += "<td>" + localNode[i].childNodes[0].nodeValue + "</td>";
+			ss += "<td>" + localNode[i].getAttribute("ta") + "</td>";
+			ss += "</tr>";
+		}
+		ss += "</table>";
+		document.getElementById("disp2").innerHTML = ss;
+	}
+</script>
+</head>
+<body>
+	<input type="button" value="온도 확인" id="btnOk"> <!-- 온도 확인 버튼 -->
+	<div id="disp"></div> <!-- disp 레이어 - HTML DOM을 쓰기 위함 -->
+
+	<table id="myTable"> <!-- 표 지정 -->
+		<tbody id="myTbody"></tbody>
+	</table>
+
+	<hr>
+	<div id="disp2"></div> <!-- disp2 레이어 - innerHTML을 쓰기 위함 -->
+</body>
+</html>
