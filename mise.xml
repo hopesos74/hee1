@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+
+<response>
+	<header>
+		<resultCode>00</resultCode>
+		<resultMsg>NORMAL SERVICE.</resultMsg>
+	</header>
+	<body>
+		<items>
+			
+				<item>
+					<dataTime>2020-12-17 13:00</dataTime>
+					
+                        <mangName>도시대기</mangName>
+                    
+					<so2Value>0.003</so2Value>
+					<coValue>0.2</coValue>
+					<o3Value>0.037</o3Value>
+					<no2Value>0.007</no2Value>
+					<pm10Value>21</pm10Value>
+					
+                        <pm10Value24>18</pm10Value24>
+                    
+					
+                        <pm25Value>7</pm25Value>
+                    
+                    
+                        <pm25Value24>7</pm25Value24>
+                    
+					<khaiValue>56</khaiValue>
+					<khaiGrade>2</khaiGrade>
+					<so2Grade>1</so2Grade>
+					<coGrade>1</coGrade>
+					<o3Grade>2</o3Grade>
+					<no2Grade>1</no2Grade>
+					<pm10Grade>1</pm10Grade>
+					
+                        <pm25Grade>1</pm25Grade>
+                    
+                    
+                        <pm10Grade1h>1</pm10Grade1h>
+                        <pm25Grade1h>1</pm25Grade1h>
+                    
+				</item>
+			
+		</items>
+			<numOfRows>1</numOfRows>
+			<pageNo>1</pageNo>
+			<totalCount>23</totalCount>
+	</body>
+</response>
