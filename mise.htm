@@ -30,8 +30,8 @@
         if(xhttp.readyState == 4){
           if(xhttp.status == 200){
             var responseData = xhttp.responseXML;
-            var dateTimes = responseData.getElementsByTagName("dataTime");
-            var dateTime = dataTimes[0].firstChild.nodeValue;
+            var dataTimes = responseData.getElementsByTagName("dataTime");
+            var dataTime = dataTimes[0].firstChild.nodeValue;
             document.getElementById("result").innerHTML = dataTime +"\t";
 
           }
