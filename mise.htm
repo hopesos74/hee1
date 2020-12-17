@@ -34,7 +34,7 @@
             var dataTime = dataTimes[0].firstChild.nodeValue;
             var khaiValues = responseData.getElementsByTagName("khaiValue");
             var khaiValue = khaiValues[0].firstChild.nodeValue;
-            document.getElementById("result").innerHTML = dataTime + "\t 통합대기상태 " + khaiValue;
+            document.getElementById("result").innerHTML = "측정시간 : " + dataTime + "\t 통합대기상태 : " + khaiValue;
 
           }
         }
