@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script> 
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+    $(function() {
+        $.ajax({
+        	url: "https://yts.mx/api/v2/list_movies.json?sort_by=download_count",
+            type: "GET", 
+            success: function(data) {
+                $('#content').html(JSON.stringify(data));
+            }
+        })
+    })
+    </script>
+</head>
+
+<body>
+    <p id="content"></p>
+</body>
+</html>
