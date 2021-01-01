@@ -76,34 +76,22 @@ function displayMarker(locPosition, message) {
     <button type="button" onclick="mySend()" >파일수신</button>
     <div id="result"></div>
     <script type="text/javascript">
-      var xhttp;
+     var xhr = new XMLHttpRequest();
+var url = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty'; /*URL*/
+var queryParams = '?' + encodeURIComponent('ServiceKey') + '='+'l%2FzPvuFgDbYOsgQY1kCLbjHytfR1nkkyR2KZVENTPtDNQR4AD0jG%2BvGf2fBA052nrh0HF4QJW%2FMFXxt2HKP5sg%3D%3D'; /*Service Key*/
+queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
+queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+queryParams += '&' + encodeURIComponent('stationName') + '=' + encodeURIComponent('종로구'); /**/
+queryParams += '&' + encodeURIComponent('dataTerm') + '=' + encodeURIComponent('DAILY'); /**/
+queryParams += '&' + encodeURIComponent('ver') + '=' + encodeURIComponent('1.3'); /**/
+xhr.open('GET', url + queryParams);
+xhr.onreadystatechange = function () {
+    if (this.readyState == 4) {
+        alert('Status: '+this.status+'nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'nBody: '+this.responseText);
+    }
+};
 
-      function createHttpRequest(){
-        xhttp = new XMLHttpRequest();
-      }
-
-      function  mySend(){
-        createHttpRequest();
-        xhttp.onreadystatechange = callFunction;
-        xhttp.open("GET","mise.xml", true);
-        xhttp.send(null);
-
-      }
-      function callFunction(){
-        if(xhttp.readyState == 4){
-          if(xhttp.status == 200){
-            var responseData = xhttp.responseXML;
-            var dataTimes = responseData.getElementsByTagName("dataTime");
-            var dataTime = dataTimes[0].firstChild.nodeValue;
-            var khaiValues = responseData.getElementsByTagName("khaiValue");  
-            var khaiValue = khaiValues[0].firstChild.nodeValue;
-            var pm25Values = responseData.getElementsByTagName("pm25Value");
-            var pm25Value = pm25Values[0].firstChild.nodeValue;
-            document.getElementById("result").innerHTML = "측정시간 : " + dataTime + "\t 통합대기상태 : " + khaiValue + "\t 미세먼지 : " + pm25Value;
-
-          }
-        }
-      }
+xhr.send('');
     </script>
     
     
