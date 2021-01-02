@@ -43,6 +43,10 @@
       const myPara = document.createElement('p');
       myPara.textContent = 'Hometown: ' + obj['homeTown'] + ' // Formed: ' + obj['formed'];
       header.appendChild(myPara);
+      
+      const heroes = obj['members'];
+      myH2.textContent = heroes[0].name;
+      header.appendChild(myH2);
     }
 
     
