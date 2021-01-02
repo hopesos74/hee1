@@ -23,7 +23,7 @@
     const header = document.querySelector('header');
     const section = document.querySelector('section');
 
-    let requestURL = 'https://mdn.github.io/learning-area/javascript/oojs/json/superheroes.json';
+    let requestURL = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=l%2FzPvuFgDbYOsgQY1kCLbjHytfR1nkkyR2KZVENTPtDNQR4AD0jG%2BvGf2fBA052nrh0HF4QJW%2FMFXxt2HKP5sg%3D%3D&numOfRows=1&pageNo=1&stationName=%EB%8F%99%EC%83%81%EB%8F%99&dataTerm=DAILY&ver=1.3&_returnType=json';
     let request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'text';
