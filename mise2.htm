@@ -5,72 +5,71 @@
 
     <title>Our superheroes</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Faster+One" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
   </head>
 
   <body>
 
-      <header>
-
-      </header>
-
-      <section>
-
-      </section>
+    
 
     <script>
-    const header = document.querySelector('header');
-    const section = document.querySelector('section');
+    import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 
-    let requestURL = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=l%2FzPvuFgDbYOsgQY1kCLbjHytfR1nkkyR2KZVENTPtDNQR4AD0jG%2BvGf2fBA052nrh0HF4QJW%2FMFXxt2HKP5sg%3D%3D&numOfRows=1&pageNo=1&stationName=%EB%8F%99%EC%83%81%EB%8F%99&dataTerm=DAILY&ver=1.3&_returnType=json';
-    let request = new XMLHttpRequest();
-    request.open('GET', requestURL);
-    request.responseType = 'json';
-    request.send();
+class WebConnection{
+	String json;
+	WebConnection() throws Exception{
+		String address = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=l%2FzPvuFgDbYOsgQY1kCLbjHytfR1nkkyR2KZVENTPtDNQR4AD0jG%2BvGf2fBA052nrh0HF4QJW%2FMFXxt2HKP5sg%3D%3D&numOfRows=1&pageNo=1&stationName=%EB%8F%99%EC%83%81%EB%8F%99&dataTerm=DAILY&ver=1.3&_returnType=json";
+		BufferedReader br;
+		URL url;
+		HttpURLConnection conn;
+		String protocol = "GET";
 
-    request.onload = function() {
-      const superHeroes = request.response;
-      populateHeader(superHeroes);
-      showHeroes(superHeroes);
-    }
+		url = new URL(address);
+		conn = (HttpURLConnection)url.openConnection();
+		conn.setRequestMethod(protocol);
+		br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-    function populateHeader(obj) {
-      const myH1 = document.createElement('h1');
-      myH1.textContent = obj['squadName'];
-      header.appendChild(myH1);
+		json = br.readLine();
+		//System.out.println(json);
+	}
+}
 
-      const myPara = document.createElement('p');
-      myPara.textContent = 'Hometown: ' + obj['homeTown'] + ' // Formed: ' + obj['formed'];
-      header.appendChild(myPara);
-    }
+public class Main {
+	public static void main(String[] args) throws Exception {
+		WebConnection wc = new WebConnection();
+		
+		String json = wc.json;
+		
+		JSONParser parser = new JSONParser();
+		JSONObject obj = (JSONObject)parser.parse(json);
+		//JSONObject channel = (JSONObject)obj.get("channel");
+		
+		JSONArray item = (JSONArray)channel.get("list");
+		for(int i=0;i<item.size();i++){
+			JSONObject tmp = (JSONObject)item.get(i);
+			String dataTime = ((String)tmp.get("dataTime")).replace("&lt;b&gt;", "").replace("&lt;/b&gt;", "");
+			String khaiValue = (String)tmp.get("khaiValue");
+			String pm25Value = (String)tmp.get("pm25Value");
+			
+			System.out.println("----- "+(i+1)+"번째 검색 결과 -----");
+			System.out.println("측정시간 : "+dataTime);
+			System.out.println("통합대기상태 : "+khaiValue);
+			System.out.println("미세먼지 : "+pm25Value+"원");
+		}
+	}
+}
 
-    function showHeroes(obj) {
-      const heroes = obj['list'];
 
-      for(let i = 0; i < heroes.length; i++) {
-        const myArticle = document.createElement('article');
-        const myH2 = document.createElement('h2');
-        const myPara1 = document.createElement('p');
-        const myPara2 = document.createElement('p');
-        const myPara3 = document.createElement('p');
-        const myList = document.createElement('ul');
-
-        myH2.textContent = heroes[i].dataTime;
-        myPara1.textContent = 'Secret identity: ' + heroes[i].khaiValue;
-        myPara2.textContent = 'Age: ' + heroes[i].pm25Value;
-
-      
-
-        myArticle.appendChild(myH2);
-        myArticle.appendChild(myPara1);
-        myArticle.appendChild(myPara2);
-        
-
-        section.appendChild(myArticle);
-      }
-    }
 
     </script>
+    
+    
   </body>
 </html>
