@@ -14,15 +14,14 @@
 <body>
     <h1>주소와 날씨</h1>
 
-    </script>
     <input id="addressName" value="" type="text">
     <button id="search">검색</button>
     <br>
 
-    <p></p>
+    <p style="font-size:10px;"></p>
     <!-- <span id="city-aqi-container-display"></span> -->
     <br>
-    <div id="map" style="width:100%;height:400px;"></div>
+    <div id="map" style="width:300px;height:300px;"></div>
     
 
     <script type="text/javascript"
@@ -50,11 +49,11 @@
                     .done(function (msg) {
                         console.log(msg);
 
-                        $("p").append("<strong>지번주소 : " + msg.documents[0].address.address_name + "</strong><br>");
-                        $("p").append("<strong>도로명주소 : " + msg.documents[0].road_address.address_name + "</strong><br>");
-                        $("p").append("<strong>위도,경도: " + msg.documents[0].road_address.y + ", " + msg.documents[0].road_address.x +
-                            "</strong><br>");
-                        $("p").append("<strong>우편번호 : " + msg.documents[0].road_address.zone_no + "</strong><br><br>");
+                        $("p").append("지번주소 : " + msg.documents[0].address.address_name + "<br>");
+                        $("p").append("도로명주소 : " + msg.documents[0].road_address.address_name + "<br>");
+                        $("p").append("위도,경도: " + msg.documents[0].road_address.y + ", " + msg.documents[0].road_address.x +
+                            "<br>");
+                        $("p").append("우편번호 : " + msg.documents[0].road_address.zone_no + "<br><br>");
 
 
                         var y = msg.documents[0].road_address.y;
@@ -87,11 +86,11 @@
                                 console.log(m);
                                 //var temp = (m.main.temp - 273).toFixed(2);
 
-                                $("p").append("<strong>온도 : " + m.main.temp + "℃, 습도 : " + m.main.humidity + "%,&nbsp;</strong>");
+                                $("p").append("온도 : " + m.main.temp + "℃, 습도 : " + m.main.humidity + "%,&nbsp;");
                                 //$("p").append( "<img src='http://openweathermap.org/img/w/" + m.weather[0].icon + ".png'>");
                                 $("p").append("&nbsp;<i class='wi wi-owm-" + m.weather[0].id + "'></i>");
-                                $("p").append("&nbsp;<strong>" + m.weather[0].description + ",&nbsp;</strong>");
-                                $("p").append("&nbsp;<strong>" + m.name + "</strong><br><br>");
+                                $("p").append("&nbsp;" + m.weather[0].description + ",&nbsp;");
+                                $("p").append("&nbsp;" + m.name + "<br><br>");
 
                                // _aqiFeed({ container: "city-aqi-container", city: "" + m.name + "" });
                                // _aqiFeed({
@@ -137,7 +136,7 @@
                                     var pm10_color = "#FE2E2E";
                                 };
                                
-                                $("p").append("<strong>초미세먼지(PM2.5) : <SPAN STYLE='background-color:"+color+";'><i><font color='white'>&nbsp;" + pm.data.iaqi.pm25.v +"("+ level +  ")&nbsp;&nbsp;</i></font></span>, 미세먼지(PM10) : <SPAN STYLE='background-color:"+pm10_color+";'><i><font color='white'>&nbsp;"+pm.data.iaqi.pm10.v+"("+ pm10_level +  ")&nbsp;&nbsp;</i></font></span>,&nbsp; " +pm.data.time.s+"</strong><br>");
+                                $("p").append("초미세먼지(PM2.5) : <SPAN STYLE='background-color:"+color+";'><i><font color='white'>&nbsp;" + pm.data.iaqi.pm25.v +"("+ level +  ")&nbsp;&nbsp;</i></font></span>, 미세먼지(PM10) : <SPAN STYLE='background-color:"+pm10_color+";'><i><font color='white'>&nbsp;"+pm.data.iaqi.pm10.v+"("+ pm10_level +  ")&nbsp;&nbsp;</i></font></span>,&nbsp; " +pm.data.time.s+"<br>");
                                 
 
                                // _aqiFeed({ container: "city-aqi-container", city: "" + m.name + "" });
