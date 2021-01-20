@@ -14,7 +14,7 @@
 
 <body>
 
-    위도:<span id="latitude"></span>
+    위도:<span id="latitude"></span><br>
     경도:<span id="longitude"></span>
 
     <p></p>
@@ -85,7 +85,7 @@
 
 
 
-                    $.ajax({
+                        $.ajax({
                         method: "GET",
                         url: "https://api.openweathermap.org/data/2.5/weather?lat=" + x + "&lon=" + y + "&appid=49c020e9c5d0d8084687f4fbcc283554&units=metric"
 
@@ -145,8 +145,9 @@
                                 var pm10_color = "#FE2E2E";
                             };
 
-                            $("p").append("초미세먼지(PM2.5) : <SPAN STYLE='background-color:" + color + ";'><i><font color='white'>&nbsp;" + pm.data.iaqi.pm25.v + "(" + level + ")&nbsp;&nbsp;</i></font></span>, 미세먼지(PM10) : <SPAN STYLE='background-color:" + pm10_color + ";'><i><font color='white'>&nbsp;" + pm.data.iaqi.pm10.v + "(" + pm10_level + ")&nbsp;&nbsp;</i></font></span>&nbsp; <br>측정시간 : " + pm.data.time.s + "<br>");
-
+                            $("p").append("초미세먼지(PM2.5) : <SPAN STYLE='background-color:" + color + ";'><i><font color='white'>&nbsp;" + pm.data.iaqi.pm25.v + "(" + level + ")&nbsp;&nbsp;</i></font></span><br>");
+                            $("p").append("미세먼지(PM10) : <SPAN STYLE='background-color:" + pm10_color + ";'><i><font color='white'>&nbsp;" + pm.data.iaqi.pm10.v + "(" + pm10_level + ")&nbsp;&nbsp;</i></font></span><br>");
+                            $("p").append("측정시간 : " + pm.data.time.s + "<br>");
 
                             // _aqiFeed({ container: "city-aqi-container", city: "" + m.name + "" });
                             // _aqiFeed({
