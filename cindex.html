@@ -44,6 +44,12 @@
                         };
 
                     var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+                    
+                    // 지도에 교통정보를 표시하도록 지도타입을 추가합니다
+map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);    
+
+// 아래 코드는 위에서 추가한 교통정보 지도타입을 제거합니다
+// map.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);   
 
                     // 마커가 표시될 위치입니다 
                     var markerPosition = new kakao.maps.LatLng(x, y);
