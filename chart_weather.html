@@ -28,7 +28,7 @@
     <span id="hour"></span><br>
     <span id="hourtemp"></span><br>
     <span id="icon"></span><br>
-    <canvas id="myChart" width="400" height="140"></canvas>
+    <canvas id="myChart" width=90% height="140"></canvas>
     <p id="pm"></p>
 
 
@@ -88,7 +88,7 @@
                     })
                         .done(function (msg) {
                             console.log(msg);
-                            $("#address").append("지번주소 : " + msg.documents[0].address.address_name + "<br>");
+                            $("#address").append("지번 : " + msg.documents[0].address.address_name + "<br>");
                             var address = msg.documents[0].address.address_name;
 
                             $.ajax({
@@ -99,7 +99,7 @@
                             })
                                 .done(function (road) {
                                     console.log(road);
-                                    $("#address").append("도로명주소 : " + road.documents[0].road_address.address_name + "<br>");
+                                    $("#address").append("도로명 : " + road.documents[0].road_address.address_name + "<br>");
                                     $("#address").append("우편번호 : " + road.documents[0].road_address.zone_no + "<br>");
 
                                 });
@@ -125,7 +125,7 @@
                                 var date1 = new Date(m.hourly[i].dt * 1000);
                                 var hours = date1.getHours();
                                 $("#hour").append("&nbsp;" + hours + "시");
-                                $("#hourtemp").append("&nbsp;" + m.hourly[i].temp + "º");
+                                $("#hourtemp").append("&nbsp;" + m.hourly[i].temp + "°");
                                 $("#icon").append("&nbsp;<i class='wi wi-owm-" + m.hourly[i].weather[0].id + "'></i>");
                             }
 
