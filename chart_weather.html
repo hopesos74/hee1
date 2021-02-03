@@ -21,18 +21,20 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
-    <span id="latitude"></span><br>
+    <span id="latitude"></span> 
     <span id="longitude"></span>
     <p id="address"></p>
     <p id="temp"></p>
-    <span id="hour"></span><br>
-    <span id="hourtemp"></span><br>
-    <span id="icon"></span><br>
-    <canvas id="myChart" width="380" height="140"></canvas>
+   <!-- <span id="hour"></span><br>
+   <span id="hourtemp"></span><br> -->
+   <table width=100% cellpading=0 cellspacing=0>
+       <tr>
+           <td id="icon"></td>
+       </tr>
+   </table>
+    <!-- <span id="icon"></span><br> -->
+    <canvas id="myChart" style="width:95%;height:130px;"></canvas>
     <p id="pm"></p>
-
-
-
     <div id="map" style="width:100%;height:350px;"></div>
 
 
@@ -100,6 +102,8 @@
                                 .done(function (road) {
                                     console.log(road);
                                     $("#address").append("도로명 : " + road.documents[0].road_address.address_name + "<br>");
+                                    $("#address").append("건물명 : " + road.documents[0].road_address.building_name + "<br>");
+                                    
                                     $("#address").append("우편번호 : " + road.documents[0].road_address.zone_no + "<br>");
 
                                 });
@@ -121,39 +125,34 @@
 
 
 
-                            for (i = 0; i < 8; i++) {
+                            for (i = 0; i < 10; i++) {
                                 var date1 = new Date(m.hourly[i].dt * 1000);
                                 var hours = date1.getHours();
-                                $("#hour").append("&nbsp;" + hours + "시");
-                                $("#hourtemp").append("&nbsp;" + m.hourly[i].temp + "°");
-                                $("#icon").append("&nbsp;<i class='wi wi-owm-" + m.hourly[i].weather[0].id + "'></i>");
+                                //$("#hour").append("&nbsp;" + hours + "시");
+                                //$("#hourtemp").append("&nbsp;" + m.hourly[i].temp + "°");
+                                $("#icon").append("<td><i class='wi wi-owm-" + m.hourly[i].weather[0].id + "'></i></td>");
                             }
 
                             var labels = new Array();
                             var hourly_temp = new Array();
-                            for (var i = 0; i < 8; i++) {
+                            for (var i = 0; i < 10; i++) {
                                 var date2 = new Date(m.hourly[i].dt * 1000);
-                                var hours = date2.getHours();
+                                var hours = date2.getHours()+"시";
                                 labels.push(hours);
-                                hourly_temp.push(m.hourly[i].temp);                                
+                                hourly_temp.push(m.hourly[i].temp);
                             }
                             console.log(labels);
-                            
+
                             var ctx = document.getElementById('myChart');
                             var myChart = new Chart(ctx, {
                                 type: 'line',
                                 data: {
                                     labels: labels,
                                     datasets: [{
-                                        label: 'temp',
+                                        label: ' ',
                                         data: hourly_temp,
                                         backgroundColor: [
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)'
+                                            'rgba(0, 0, 0, 0)'
                                         ],
                                         borderColor: [
                                             'rgba(255, 99, 132, 1)',
@@ -163,11 +162,38 @@
                                             'rgba(153, 102, 255, 1)',
                                             'rgba(255, 159, 64, 1)'
                                         ],
-                                        borderWidth: 1
+                                        borderWidth: 0
                                     }]
                                 },
                                 options: {
+                                    
                                     responsive: false,
+                                    tooltips: {
+                                        enabled: false
+                                    },
+                                    hover: {
+                                        animationDuration: 0
+                                    },
+                                    animation: {
+                                        duration: 1,
+                                        onComplete: function () {
+                                            var chartInstance = this.chart,
+                                                ctx = chartInstance.ctx;
+                                            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                                            ctx.fillStyle = 'purple';
+                                            ctx.textAlign = 'center';
+                                            ctx.textBaseline = 'bottom';
+
+                                            this.data.datasets.forEach(function (dataset, i) {
+                                                var meta = chartInstance.controller.getDatasetMeta(i);
+                                                meta.data.forEach(function (bar, index) {
+                                                    var data = dataset.data[index];
+                                                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                                });
+                                            });
+                                        }
+                                    },
+
                                     scales: {
                                         yAxes: [{
                                             ticks: {
@@ -219,7 +245,7 @@
                                 var pm10_color = "#FE2E2E";
                             };
 
-                            $("#pm").append("통합대기상태(AQI) : <SPAN STYLE='background-color:" + color + ";'><i><font color='white'>&nbsp;" + pm.data.iaqi.pm25.v + "(" + level + ")&nbsp;&nbsp;</i></font></span><br>");
+                            $("#pm").append("통합대기(AQI) : <SPAN STYLE='background-color:" + color + ";'><i><font color='white'>&nbsp;" + pm.data.iaqi.pm25.v + "(" + level + ")&nbsp;&nbsp;</i></font></span><br>");
                             $("#pm").append("미세먼지(PM10) : <SPAN STYLE='background-color:" + pm10_color + ";'><i><font color='white'>&nbsp;" + pm.data.iaqi.pm10.v + "(" + pm10_level + ")&nbsp;&nbsp;</i></font></span><br>");
                             $("#pm").append("측정시간 : " + pm.data.time.s + "<br>");
 
