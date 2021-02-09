@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키워드 검색</title>
+</head>
+
+<body>
+    <h1>장소 검색</h1>
+    <input id="keywordName" value="" type="text">
+    <button id="search">검색</button>
+    <p></p>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            // Geolocation API에 액세스할 수 있는지를 확인
+            if (navigator.geolocation) {
+                //위치 정보를 얻기
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    x = pos.coords.latitude;
+                    y = pos.coords.longitude;
+
+                    console.log(x);
+                    console.log(y);
+                });
+            } else {
+                alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
+            }
+        });
+
+        $(document).ready(function () {
+            $("#search").click(function () {
+                $("p").empty();
+                $.ajax({
+                    method: "GET",
+                    url: "https://dapi.kakao.com/v2/local/search/keyword.json?y=" + x + "&x=" + y + "&radius=20000",
+                    data: { query: $("#keywordName").val() },
+                    headers: { Authorization: "KakaoAK eaba352137de06ddce13c272d9ce9756" }
+                })
+                    .done(function (msg) {
+                        console.log(msg);
+                        for(i=0;i<5;i++) {
+                        $("p").append("이름 : " + msg.documents[i].place_name + "<br>");
+                        if(msg.documents[i].road_address_name){
+                            $("p").append("주소 : " + msg.documents[i].road_address_name + "<br>");
+                        } else {
+                            $("p").append("주소 : " + msg.documents[i].address_name + "<br>");
+                        }
+                        
+                        $("p").append("전화 : " + msg.documents[i].phone + "<br>");
+                        $("p").append("지도 : " + msg.documents[i].place_url + "<br>");
+                        $("p").append("거리 : " + msg.documents[i].distance + "<br><br>");
+                    }
+                    });
+            });
+            $('#keywordName').keypress(function (event) {
+                if (event.which == 13) {
+                    $('#search').click();
+                    return false; // 검색창에서 엔터 쳤을 때
+                }
+            });
+        });
+
+
+
+    </script>
+</body>
+
+</html>
